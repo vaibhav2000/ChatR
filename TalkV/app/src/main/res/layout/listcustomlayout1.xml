@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/listtextHere"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="left"
+        android:maxWidth="300dp"
+        android:text="dwa"
+        android:padding="5dp"
+        android:layout_margin="1dp"
+        android:background="@drawable/textborder"
+        >
+    </TextView>
+
+</LinearLayout>

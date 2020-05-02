@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Choose Your Method of Chatting."
+        android:textSize="30dp"
+        android:padding="30dp"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary">
+    </TextView>
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:src="@drawable/circleshape"
+    android:rotation="160"
+    android:layout_gravity="bottom"
+    android:scaleType="fitStart"
+    android:scaleY="2.4"
+    android:scaleX="2.5"
+    ></ImageView>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+
+          android:text="Chat Online"
+          android:textColor="#ffffff"
+          android:layout_gravity="bottom"
+          android:padding="15dp"
+          android:layout_margin="60dp"
+          android:background="@drawable/roundbutton"
+          android:id="@+id/onlinechatoption">
+      </Button>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+
+          android:text="Chat Offline"
+          android:textColor="#ffffff"
+          android:layout_gravity="bottom|right"
+          android:padding="10dp"
+          android:layout_margin="60dp"
+          android:id="@+id/offlinechatoption"
+          android:background="@drawable/roundbutton">
+      </Button>
+
+  </FrameLayout>
+
+
+
+</LinearLayout>

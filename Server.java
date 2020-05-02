@@ -1,108 +1,71 @@
-// A Java program for a Server 
-import java.net.*; 
-import java.io.*; 
+import java.net.*;
+import java.io.*;
+import java.util.*;
 
-public class Server 
-{ 
-	
-	static volatile int totalConn=0;
-
-	public static void main(String args[]) throws IOException {  
-
+public class Server {
  
+    static Vector<Socket> socketHolder= new Vector<>();
 
-		ServerSocket ss=new ServerSocket(5000);
-		
-		Socket collSock[]= new Socket[10];
-		 
+    public static void main(String[] args) throws Exception
+    {   
+        ServerSocket srvsock= new ServerSocket(5000);
+        System.out.println("Console LOG:");
 
-		  while(true)
-		  {		
-		   try{	
-		 			
-			 
-					Socket s=ss.accept(); 
-					collSock[totalConn++]= s; 
+        while(true)
+        {
 
-					System.out.println(totalConn);
-					
-					DataInputStream din=new DataInputStream(s.getInputStream());  
-					DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
-					  
-					
-					new Thread(new Runnable(){
-						@Override
-						public void run() {
-			
-			     
-							String str=""; 
-					
-					while(true){
-			
-					try{
-					str=din.readUTF();
-					
-					for(int i=0;i<new Server().totalConn;i++)
-					 if(s!=collSock[i])
-					 {
-					  DataOutputStream dout=new DataOutputStream(collSock[i].getOutputStream());  
-					  dout.writeUTF(str);
-					}
-					
-					if(str.equals(null))
-					{s.close();
-					break;}
-					
-					System.out.println("client says: "+str+ new Server().totalConn);  
-					}catch(Exception e){
+            try{
 
-						for(int i=0;i<new Server().totalConn;i++)
-						 if(s== collSock[i])
-						 {
-							  collSock[i]= collSock[totalConn-1];
-							  totalConn--;
-						 }
-						 
-						break;
-					}
-				
-					
-					
-					}  
-			
-						}
-					}).start();
-					
-			
-					
-					// new Thread(new Runnable(){
-					
-					// 	@Override
-					// 	public void run() {
-							
-					// 		while(true) 
-					// 		{
-					// 			try{
-					// 			dout.writeUTF("str");
-					// 			Thread.sleep(5000);}
-					// 			catch(Exception e)
-					// 			{
-					// 				System.out.println(e.getMessage());
-					// 			}
-					// 		}
-			
-					// 	}
-					// }).start();
-			
-				
-			
-				}
-				 catch(Exception e)
-				 { 
-					 System.out.println(e.getMessage());
-				 }
+                Socket s= srvsock.accept();
 
-				}
+                socketHolder.add(s);
+                System.out.println(s.toString()+ " added, Count="+socketHolder.size());
 
-			}
-		}
+
+                DataInputStream inp = new DataInputStream(s.getInputStream()); 
+
+                new Thread(new Runnable(){
+                
+                    @Override
+                    public void run() {
+                        
+
+                    while(true){ 
+                        try{ 
+                        String str= inp.readUTF(); 
+
+
+
+
+                        System.out.println(s.toString()+" says "+str);
+
+                        
+                        for(int i=0;i<socketHolder.size();i++) 
+                         if(socketHolder.get(i) != s)
+                          {
+                               DataOutputStream ds= new DataOutputStream(socketHolder.get(i).getOutputStream());
+                               ds.writeUTF(str);
+                          }
+                        
+                        }catch(Exception e)
+                        {
+                             socketHolder.remove(s);
+                             System.out.println(s.toString()+" left,Count="+socketHolder.size()); 
+                            
+                             try{s.close();}
+                             catch(Exception ex){};
+                             return;
+
+                        }
+
+                        }  
+                    }
+                }).start();
+                
+
+            }
+            catch(Exception e){e.printStackTrace();}           
+        }
+    }
+   
+}
